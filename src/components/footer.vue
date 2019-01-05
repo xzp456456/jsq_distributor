@@ -1,39 +1,57 @@
 <template>
     <div>
-        <footer>
-			<div class="footer">
-				<div class="item_home" >
-					<div><img src="../assets/img/home.png"/></div>
-					<p>首页</p>
-				</div>
-				<div class="item_home">
-					<div><img src="../assets/img/w.png"/></div>
-					<p>设备</p>
-				</div>
-			</div>
-		</footer>
+       <footer>
+      <div class="nab">
+        <div class="navlist"  @click="navgateTo('/')">
+          <img src="@/assets/img/home.png">
+          <div class="text">首页</div>
+        </div>
+        <div class="navlist" @click="navgateTo('teamOrder')">
+          <img src="@/assets/img/menu.png">
+          <div class="text">订单</div>
+        </div>
+        <div class="navlist" @click="navgateTo('equipList')">
+          <img src="@/assets/img/nus.png">
+          <div class="text">设备</div>
+        </div>
+      </div>
+    </footer>
     </div>
 </template>
 <script>
 export default {
-    
+    methods:{
+		 navgateTo(url){
+      this.$router.push(url);
+    	}
+	}
 }
 </script>
 <style scoped="">
-footer{
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	height:1.57rem;
-	box-shadow:0rem 0rem 0rem 0rem rgba(230,230,230,1);
-	    border-top: 1px solid #E6E6E6;
+footer {
+  height: 1.57rem;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0rem 0rem 0rem 0rem rgba(230, 230, 230, 1);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 
-footer .item_home{
-	padding-top: 0.3rem;
-	width: 50%;
-	float: left;
-	text-align: center;
-	
+.navlist img {
+  width: 0.59rem;
+  height: 0.59rem;
+}
+
+.navlist {
+  padding-top: 0.4rem;
+  float: left;
+  text-align: center;
+  margin: 0 1.3rem;
+  font-size: 0.333rem;
+}
+
+.testIms {
+  width: 0.31rem;
+  height: 0.33rem;
 }
 </style>

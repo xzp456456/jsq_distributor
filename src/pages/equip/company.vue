@@ -98,28 +98,17 @@
       </div>
     </header>
     <main></main>
-    <footer>
-      <div class="nab">
-        <div class="navlist">
-          <img src="../../assets/img/home.png">
-          <div class="text">首页</div>
-        </div>
-        <div class="navlist">
-          <img src="../../assets/img/menu.png">
-          <div class="text">订单</div>
-        </div>
-        <div class="navlist">
-          <img src="../../assets/img/nus.png">
-          <div class="text">设备</div>
-        </div>
-      </div>
-    </footer>
+   <v-footer></v-footer>
   </div>
 </template>
 <script>
+import * as api from '@/api/api';
+import { postAjax } from '@/api/axios'
+import footer from '@/components/footer'
 export default {
   created() {
     this.che_token();
+    this.getUserInfo()
   },
   methods: {
     che_token() {
@@ -127,7 +116,16 @@ export default {
       if (!token || token === null) {
         this.$router.push("login");
       }
+    },
+    getUserInfo(){
+        postAjax(api.getUserInfo,{})
+        .then((res)=>{
+          console.log(res);
+        })
     }
+  },
+  components:{
+    'v-footer':footer
   }
 };
 </script>
@@ -356,30 +354,5 @@ p {
   border: none;
 }
 
-footer {
-  height: 1.57rem;
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0rem 0rem 0rem 0rem rgba(230, 230, 230, 1);
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
 
-.navlist img {
-  width: 0.59rem;
-  height: 0.59rem;
-}
-
-.navlist {
-  padding-top: 0.4rem;
-  float: left;
-  text-align: center;
-  margin: 0 1.3rem;
-  font-size: 0.333rem;
-}
-
-.testIms {
-  width: 0.31rem;
-  height: 0.33rem;
-}
 </style>

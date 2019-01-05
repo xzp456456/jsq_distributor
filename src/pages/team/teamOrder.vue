@@ -129,10 +129,18 @@
         <div class="pull-right">累计业绩总额：45895.02</div>
       </div>
     </div>
+    <v-footer></v-footer>
   </div>
 </template>
 <script>
-export default {};
+import { postAjax } from "@/api/axios";
+import * as api from "@/api/api";
+import footer from '@/components/footer'
+export default {
+  components:{
+    'v-footer':footer
+  }
+};
 </script>
 <style scoped="">
 li {
@@ -363,7 +371,7 @@ ul {
 
 .total {
   position: fixed;
-  bottom: 0;
+  bottom: 1.57rem;
   height: 1.48rem;
   width: 100%;
   background: rgba(255, 255, 255, 1);

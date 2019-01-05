@@ -122,11 +122,15 @@
 
 			</div>
 		</div>
+		<v-footer></v-footer>
     </div>
 </template>
 <script>
+import footer from '@/components/footer'
 export default {
-    
+    components:{
+		'v-footer':footer
+	}
 }
 </script>
 <style scoped="">

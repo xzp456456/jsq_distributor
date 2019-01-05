@@ -14,95 +14,44 @@
       </div>
     </div>
     <div class="nav">
-      <a href class="addClass">全部</a>
-      <a href>一级经销商</a>
-      <a href>二级经销商</a>
+      <a
+        href="javascript:void(0)"
+        :class="{'addClass':tabIndex==index}"
+        @click="changeTab(index)"
+        v-for="(tab,index) in tabs"
+        :key="index"
+      >{{tab}}</a>
     </div>
     <div class="item">
-      <div class="list">
+      <div class="list" v-for="(list,index) in lists" :key="index">
         <div class="row">
           <div class="top_list">
             <div class="header_img pull-left">
-              <img src="../../assets/img/ty.png">
+              <img :src="list.avatar">
             </div>
             <div class="pull-left">
               <div class="info_o">
-                <span class="pull-left name">张三
-                  <img src="../../assets/img/ph.png">
+                <span class="pull-left name">
+                  {{list.name}}
+                  <img src="@/assets/img/ph.png">
                 </span>
-                <span class="pull-right num">累计业绩：
-                  <i>5435</i>
+                <span class="pull-right num">
+                  累计业绩：
+                  <i>{{list.sale}}</i>
                 </span>
               </div>
               <div class="info_t">
-                <span class="pull-left ids">ID:112511</span>
-                <span class="pull-right num">累计装机量：
-                  <i>5435</i>
+                <span class="pull-left ids">ID:{{list.dealer_id}}</span>
+                <span class="pull-right num">
+                  累计装机量：
+                  <i>{{list.device_num}}</i>
                 </span>
               </div>
             </div>
           </div>
           <div class="nves">
-            <span class="pull-left">注册时间：2018.12.12</span>
-            <span class="pull-right">厦门集美区</span>
-          </div>
-        </div>
-      </div>
-      <div class="list">
-        <div class="row">
-          <div class="top_list">
-            <div class="header_img pull-left">
-              <img src="../../assets/img/ty.png">
-            </div>
-            <div class="pull-left">
-              <div class="info_o">
-                <span class="pull-left name">李四
-                  <img src="../../assets/img/ph.png">
-                </span>
-                <span class="pull-right num">累计业绩：
-                  <i>5435</i>
-                </span>
-              </div>
-              <div class="info_t">
-                <span class="pull-left ids">ID:112511</span>
-                <span class="pull-right num">累计装机量：
-                  <i>5435</i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="nves">
-            <span class="pull-left">注册时间：2018.12.12</span>
-            <span class="pull-right">厦门集美区</span>
-          </div>
-        </div>
-      </div>
-      <div class="list">
-        <div class="row">
-          <div class="top_list">
-            <div class="header_img pull-left">
-              <img src="../../assets/img/ty.png">
-            </div>
-            <div class="pull-left">
-              <div class="info_o">
-                <span class="pull-left name">王五
-                  <img src="../../assets/img/ph.png">
-                </span>
-                <span class="pull-right num">累计业绩：
-                  <i>5435</i>
-                </span>
-              </div>
-              <div class="info_t">
-                <span class="pull-left ids">ID:112511</span>
-                <span class="pull-right num">累计装机量：
-                  <i>5435</i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="nves">
-            <span class="pull-left">注册时间：2018.12.12</span>
-            <span class="pull-right">厦门集美区</span>
+            <span class="pull-left">注册时间：{{list.create_time}}</span>
+            <span class="pull-right">{{list.dealer_address}}</span>
           </div>
         </div>
       </div>
@@ -121,7 +70,40 @@
   </div>
 </template>
 <script>
-export default {};
+import { postAjax } from "@/api/axios";
+import * as api from "@/api/api";
+export default {
+  data() {
+    return {
+      tabIndex: 0,
+      tabs: ["全部", "一级经销商", "二级经销商"],
+      lists: []
+    };
+  },
+  created() {
+    this.member();
+  },
+  methods: {
+    changeTab(index) {
+      this.tabIndex = index;
+      this.member();
+    },
+    member() {
+      let data = {
+        page: 1,
+        page_size: 10,
+        keyword: 7,
+        type: this.tabIndex,
+        order: 3
+      };
+      postAjax(api.member, data).then(res => {
+        if (res.status) {
+          this.lists = res.data;
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style scoped="">
@@ -296,7 +278,7 @@ ul {
 .top_list {
   width: 100%;
   padding-top: 0.3rem;
-  height: 1.5rem;
+  height: 2rem;
   border-bottom: 1px solid #e8eef4;
   margin-top: 0.3rem;
 }

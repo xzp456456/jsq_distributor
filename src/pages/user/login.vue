@@ -34,11 +34,11 @@
   </div>
 </template>
 <script>
-// import 'vue-layer-mobile/need/layer.css'
-import btn from "../../components/btn";
-import * as types from "../../vuex/types";
-import { postAjax,layOpen} from "../../api/axios";
-import * as api from "../../api/api";
+
+import btn from "@/components/btn";
+import * as types from "@/vuex/types";
+import { postAjax,layOpen} from "@/api/axios";
+import * as api from "@/api/api";
 export default {
   data() {
     return {

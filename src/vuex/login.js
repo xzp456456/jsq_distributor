@@ -18,6 +18,7 @@ const actions = {
                 if (res.status) {
                   let access_token = res.data.access_token;
                     localStorage.setItem('access_token',res.data.access_token);
+                    localStorage.setItem('dealer_id',res.data.dealer_id);
                     state.access_token  = access_token;
                 }
                 resolve(res);

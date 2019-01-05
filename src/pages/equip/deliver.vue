@@ -3,19 +3,43 @@
         <div class="main">
 			<div class="row">
 				<span class="pull-left">最低库存</span>
-				<span class="pull-right"><input type="text" placeholder="请输入最低库存" name="" id="" value="" /></span>
+				<span class="pull-right"><input type="text" placeholder="请输入最低库存" v-model="min_sku" /></span>
 			</div>
 		</div>
 		<div class="text">
 			库存低于以上数量将自动提交发货申请
 		</div>
-		<btn btnName="提现"></btn>
+		<v-btn btnName="提现" @actionClick="updateMinSku"></v-btn>
     </div>
 </template>
 <script>
-import btn from '../../components/btn'
+import btn from '@/components/btn'
+import * as api from '@/api/api'
+import { postAjax,layOpen} from '@/api/axios'
 export default {
-    
+	data(){
+		return{
+			min_sku:""
+		}
+	},
+	methods:{
+		updateMinSku(){
+			let data = {
+				min_sku:this.min_sku
+			}
+			postAjax(api.updateMinSku,data)
+			.then(res=>{
+				if(res.status){
+					layOpen(res.msg);
+				}else{
+					layOpen(res.msg);
+				}
+			})
+		}
+	},
+    components:{
+		'v-btn':btn
+	}
 }
 </script>
 <style scoped="">

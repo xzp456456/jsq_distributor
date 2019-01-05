@@ -1,29 +1,46 @@
 <template>
   <div>
     <div class="item">
-      <div class="list">
+      <div class="list" v-for="(list,index) in lists" :key="index">
         <div class="row">
           <div class="pull-left all">
             <div class="name">装机量(台)</div>
-            <div class="time">2018-11-01 12:12:16</div>
+            <div class="time">{{list.months}}</div>
           </div>
-          <div class="pull-right money">25</div>
-        </div>
-      </div>
-      <div class="list">
-        <div class="row">
-          <div class="pull-left all">
-            <div class="name">装机量(台)</div>
-            <div class="time">2018-11-01 12:12:16</div>
-          </div>
-          <div class="pull-right money">36</div>
+          <div class="pull-right money">{{list.count}}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {};
+import { postAjax } from "@/api/axios";
+import * as api from "@/api/api";
+export default {
+  data() {
+    return {
+      lists:[]
+    };
+  },
+  created() {
+    this.totalDeviceRecord()
+  },
+  methods: {
+    totalDeviceRecord() {
+      let data = {
+        page: 1,
+        page_size: 10
+      };
+      postAjax(api.totalDeviceRecord, data)
+      .then(res=>{
+        console.log(res);
+        if(res.status){
+           this.lists = res.data.list;
+        }
+      })
+    }
+  }
+};
 </script>
 <style scoped="">
 .pull-left {

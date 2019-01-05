@@ -49,6 +49,7 @@ export const getAjax = (url, param) => {
 
 export const postAjax = (url, param) => {
     return new Promise((resolve, reject) => {
+        param.dealer_id = localStorage.getItem('dealer_id');
         axios.post(url, qs.stringify(param),
             {
                 headers: {

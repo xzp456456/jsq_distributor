@@ -32,9 +32,9 @@
   </div>
 </template>
 <script>
-import btn from "../../components/btn";
-import { postAjax, layOpen } from "../../api/axios";
-import * as api from "../../api/api";
+import btn from "@/components/btn";
+import { postAjax, layOpen } from "@/api/axios";
+import * as api from "@/api/api";
 export default {
   data() {
     return {
