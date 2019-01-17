@@ -12,13 +12,13 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">经销商</div>
-            <div class="pull-right text_right">{{teamInfo.consignee_name}}</div>
+            <div class="pull-right text_right">{{teamInfo.dealer_name}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">经销商地址</div>
-            <div class="pull-right text_right">{{teamInfo.dealer_address}}</div>
+            <div class="pull-right text_right">{{teamInfo.dealer_consignee_address}}</div>
           </div>
         </div>
         <div class="list">
@@ -30,7 +30,7 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">注册时间</div>
-            <div class="pull-right text_right">2018-11-16</div>
+            <div class="pull-right text_right">{{teamInfo.create_time}}</div>
           </div>
         </div>
         <div class="list">
@@ -54,8 +54,8 @@
   </div>
 </template>
 <script>
-import { postAjax } from "../../api/axios";
-import * as api from "../../api/api";
+import { postAjax } from "@/api/axios";
+import * as api from "@/api/api";
 export default {
   data(){
     return{
@@ -67,7 +67,8 @@ export default {
   },
   methods:{
      getTeamInfo(){
-        postAjax(api.getUserInfo,{})
+       let data = { order_id:localStorage.getItem('order_id') }
+        postAjax(api.getUserInfo,data)
         .then(res=>{
           console.log(res);
           if(res.status){

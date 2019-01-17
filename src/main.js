@@ -5,8 +5,14 @@ import App from './App'
 import router from './router'
 import store from './vuex/store';
 import layer from 'layer-mobile'
-
-Vue.prototype.$layer = layer
+import { MessageBox,Toast,Popup,Loadmore,InfiniteScroll } from 'mint-ui'
+import 'mint-ui/lib/style.css'
+Vue.component(Popup.name, Popup);
+Vue.component(Loadmore.name,Loadmore);
+Vue.use(InfiniteScroll);
+Vue.prototype.$layer = layer;
+Vue.prototype.$MessageBox = MessageBox;
+Vue.prototype.Toast = Toast;
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 router.beforeEach((to, from, next) => {

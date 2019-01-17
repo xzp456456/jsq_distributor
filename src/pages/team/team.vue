@@ -3,14 +3,15 @@
     <div class="search">
       <div class="bg pull-left">
         <div class="fd pull-left">
-          <img src="../../assets/img/fd.png">
+          <img src="@/assets/img/fd.png">
         </div>
         <div class="searchInput pull-left">
-          <input type="text" placeholder="请输入姓名，经销商ID，设备...">
+          <input type="text" placeholder="请输入姓名，经销商ID，设备..." v-model="data.keyword" >
+          <button class="search-btn" @click="member()">搜索</button>
         </div>
       </div>
-      <div class="sx pull-right">
-        <img src="../../assets/img/sx.png">
+      <div class="sx pull-right" @click="showSelect(true)">
+        <img src="@/assets/img/sx.png">
       </div>
     </div>
     <div class="nav">
@@ -20,9 +21,11 @@
         @click="changeTab(index)"
         v-for="(tab,index) in tabs"
         :key="index"
-      >{{tab}}</a>
+      >{{tab.name}}{{'('+tab.aount+')'}}</a>
     </div>
-    <div class="item">
+    <div class="item" v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="0">
       <div class="list" v-for="(list,index) in lists" :key="index">
         <div class="row">
           <div class="top_list">
@@ -56,51 +59,67 @@
         </div>
       </div>
     </div>
-    <div class="layerOut" style="display: none;">
+    <mt-popup v-model="show" position="bottom">
       <div class="coll">
         <ul>
-          <li>不限</li>
-          <li>注册时间</li>
-          <li>销售业绩</li>
-          <li>装机总量</li>
-          <li>取消</li>
+          <li @click=" changOrder('')">不限</li>
+          <li @click=" changOrder(0)">注册时间</li>
+          <li @click=" changOrder(1)">销售业绩</li>
+          <li @click=" changOrder(2)">装机总量</li>
+          <li @click="showSelect(false)">取消</li>
         </ul>
       </div>
-    </div>
+    </mt-popup>
   </div>
 </template>
 <script>
-import { postAjax } from "@/api/axios";
+import { postAjax ,getAjax} from "@/api/axios";
 import * as api from "@/api/api";
 export default {
   data() {
     return {
+      show:false,
       tabIndex: 0,
-      tabs: ["全部", "一级经销商", "二级经销商"],
-      lists: []
-    };
+      tabs: [{name:"全部",aount:localStorage.getItem('dealer_count')},
+       {name:"一级经销商",aount:localStorage.getItem('dealer_count_level1')}, 
+       {name:"二级经销商",aount:localStorage.getItem('dealer_count_level2')}],
+      lists: [],
+      data:{
+        page: 1,
+        page_size: 10,
+        type: 0,
+        order: ""
+      }
+    }
   },
   created() {
     this.member();
   },
   methods: {
+    loadMore(){
+      this.data.page_size = this.data.page_size+10;
+      this.member();
+    },
+    changOrder(num){
+      this.data.order = num;
+      this.show = false;
+      this.member();
+    },
     changeTab(index) {
       this.tabIndex = index;
+      this.data.type = index;
       this.member();
     },
     member() {
-      let data = {
-        page: 1,
-        page_size: 10,
-        keyword: 7,
-        type: this.tabIndex,
-        order: 3
-      };
-      postAjax(api.member, data).then(res => {
+      let data = this.data;
+      postAjax(api.member,data).then(res => {
         if (res.status) {
-          this.lists = res.data;
+          this.lists = res.data.list;
         }
       });
+    },
+    showSelect(bool){
+      this.show=bool;
     }
   }
 };
@@ -181,6 +200,17 @@ ul {
   margin-top: 0.3rem;
 }
 
+.search-btn{
+  background-color: transparent;
+  color: #1aadff;
+  outline: none;
+  border: none;
+  width: 1.6rem;
+  height: 0.6rem;
+     font-size: .35rem;
+
+}
+
 .nav a {
   font-size: 0.38rem;
   font-family: PingFang-SC-Medium;
@@ -188,7 +218,8 @@ ul {
   color: rgba(102, 102, 102, 1);
   text-decoration: none;
   text-align: center;
-  padding: 0rem 0.83rem;
+  width: 3.1rem;
+  display: inline-block;
   line-height: 1.39rem;
 }
 
@@ -304,11 +335,9 @@ i {
 }
 
 .coll {
-  position: fixed;
   width: 100%;
   text-align: center;
-  bottom: 0;
-  z-index: 99;
+
 }
 
 .coll ul li {
@@ -322,4 +351,14 @@ i {
   color: rgba(0, 0, 0, 1);
   line-height: 1.6rem;
 }
+
+.mint-popup-bottom{
+  width: 100%;
+}
+
+.item{
+  height: 14rem;
+  overflow-y: scroll;
+}
+
 </style>

@@ -3,40 +3,54 @@
     <header>
       <div class="header">
         <div class="num">
-          <div class="money">2626.00</div>
+          <div class="money">{{money.settled_amount}}</div>
           <div class="unit">已结金额(元)</div>
         </div>
-        <div class="getMoney">可提金额：5000</div>
+        <div class="getMoney">可提金额：{{money.can_withdraw}}</div>
       </div>
     </header>
     <main>
       <div class="item">
-        <div class="list">
+        <div class="list"  @click="navgateTo('breakdown')">
           <div class="row">
             <span class="pull-left">佣金记录</span>
             <span class="pull-right">
-              <img class="in" src="../../assets/img/in.png">
+              <img class="in" src="@/assets/img/in.png">
             </span>
           </div>
         </div>
-        <div class="list">
+        <div class="list" @click="navgateTo('cashRecord')">
           <div class="row">
             <span class="pull-left">提现记录</span>
             <span class="pull-right">
-              <img class="in" src="../../assets/img/in.png">
+              <img class="in" src="@/assets/img/in.png">
             </span>
           </div>
         </div>
       </div>
-      <btn btnName="立即提现"></btn>
+      <btn btnName="立即提现" @actionClick="navgateTo('draw')"></btn>
     </main>
     <footer></footer>
   </div>
 </template>
 <script>
-import backList from '../../components/backList'
-import btn from '../../components/btn'
+import backList from '@/components/backList'
+import btn from '@/components/btn'
 export default {
+  data(){
+    return{
+      money:{}
+    }
+  },
+  created(){
+    this.money.settled_amount = localStorage.getItem('settled_amount');
+    this.money.can_withdraw = localStorage.getItem('can_withdraw');
+  },
+  methods:{
+    navgateTo(url){
+      this.$router.push(url)
+    }
+  },
     components:{
     btn,
     'back-lsit':backList

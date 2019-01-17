@@ -1,6 +1,6 @@
 <template>
     	<div class="item">
-			<div class="list" v-for="(list,index) in lists" :key="index">
+			<div class="list" v-for="(list,index) in lists" :key="index" @click="navgateTo('details',list.notice_id)">
 				<div class="row">
 					<div class="pull-left">
 						<div class="title">{{list.title}}</div>
@@ -50,6 +50,10 @@ export default {
 					this.lists = res.data;
 				}
 			})
+		},
+		navgateTo(url,param){
+			this.$router.push(url);
+			localStorage.setItem('notice_id',param)
 		}
 	}
 }

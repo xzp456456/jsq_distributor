@@ -6,67 +6,67 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">机器编号</div>
-            <div class="pull-right text_right">12343</div>
+            <div class="pull-right text_right">{{info.device_id}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">网卡</div>
-            <div class="pull-right text_right">165151116511561561561561561</div>
+            <div class="pull-right text_right">{{info.iccid}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">机器型号</div>
-            <div class="pull-right text_right">家用II型（LANMAX-186）</div>
+            <div class="pull-right text_right">{{info.device_model}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">计费模式</div>
-            <div class="pull-right text_right">流量模式</div>
+            <div class="pull-right text_right">{{info.chargeMode?info.chargeMode:'按流量'}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">安装时间</div>
-            <div class="pull-right text_right">2018-11-16</div>
+            <div class="pull-right text_right">{{info.create_time}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">装机地址</div>
-            <div class="pull-right text_right">福建省厦门市集美区软件园三期A02</div>
+            <div class="pull-right text_right">{{info.province}}{{info.city}}{{info.area}}{{info.address}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">已用流量</div>
-            <div class="pull-right text_right">396升</div>
+            <div class="pull-right text_right">{{info.usedFlow?info.usedFlow:0}}升</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">已用时长</div>
-            <div class="pull-right text_right">100天</div>
+            <div class="pull-right text_right">{{info.usedTime?info.usedTime:0}}天</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">剩余流量</div>
-            <div class="pull-right text_right">106升</div>
+            <div class="pull-right text_right">{{info.restFlow?info.restFlow:0}}升</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">原水TDS</div>
-            <div class="pull-right text_right">19ppm</div>
+            <div class="pull-right text_right">{{info.purityTDS?info.purityTDS:0}}ppm</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">净水TDS</div>
-            <div class="pull-right text_right">1ppm</div>
+            <div class="pull-right text_right">{{info.rawTDS?info.rawTDS:0}}ppm</div>
           </div>
         </div>
       </div>
@@ -75,7 +75,19 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      info:{}
+    }
+  },
+  created(){
+    this.info =this.$store.state.order.info;
+  },
+  methods:{
+
+  }
+};
 </script>
 <style scoped="">
 .pull-left {

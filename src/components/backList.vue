@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" @click="methodClick()">
     <div class="row">
       <div class="pull-left">
         <p class="listOne">
@@ -17,7 +17,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+     methodClick(){
+      this.$emit('actionClick');
+    }
+  }
+};
 </script>
 <style scoped="">
 .pull-left {

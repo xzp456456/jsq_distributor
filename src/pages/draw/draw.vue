@@ -5,18 +5,54 @@
 				<p>提现金额</p>
 			<div class="money">
 			<span class="bs">¥</span>
-			<span class="num">100</span>
+			<input class="num"  v-model="amount" />
 			</div>
-			<p>可提现金额：450元</p>
+			<p>可提现金额：{{can_withdraw}}元</p>
 			</div>
 		</div>
 		<p class="pd">提现申请日期每个月为10号，20号，30号</p>
-		<btn btnName="提现"></btn>
+		<btn btnName="提现"  @actionClick="withdraw()"></btn>
     </div>
 </template>
 <script>
-import btn from '../../components/btn'
+import btn from '@/components/btn'
+import { postAjax } from '@/api/axios'
+import * as api from '@/api/api'
 export default {
+	data(){
+		return{
+			amount:0,
+			can_withdraw:""
+		}
+	},
+	created(){
+		this.can_withdraw = localStorage.getItem('can_withdraw');
+	},
+	methods:{
+		withdraw(){
+			let data = { amount:this.amount };
+			postAjax(api.withdraw,data)
+			.then(res=>{
+				console.log(res);
+				if(res.status){
+					this.Toast({
+						 message: res.msg,
+						position: 'center',
+						duration: 1500
+					})
+					setTimeout(()=>{
+						this.$router.push('/')
+					},1500)
+				}else{
+					this.Toast({
+						 message: res.msg,
+						position: 'center',
+						duration: 1500
+					})
+				}
+			})
+		}
+	},
     components:{
 		btn
 	}
@@ -55,6 +91,15 @@ export default {
 	color:rgba(51,51,51,1);
 	border-bottom:1px solid rgba(232, 232, 232, 1);
 	padding-bottom: 0.1rem;
+}
+
+.num{
+	font-size:0.65rem;
+	font-family:PingFang-SC-Heavy;
+	font-weight:bold;
+	width: 50%;
+	border: none;
+	outline: none;
 }
 
 .row{

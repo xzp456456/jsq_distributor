@@ -3,7 +3,7 @@
     <div class="main">
       <div class="item">
         <div class="list">
-          <input type="text" v-model="account" placeholder="请输入用户名/邮箱/手机号">
+          <input type="text" v-model="account" placeholder="请输入手机号/经销商ID">
         </div>
         <div class="list">
           <div class="pull-left">
@@ -18,10 +18,10 @@
           </div>
           <div class="pull-left">
             <span class="ps">
-              <img @click="changeHide()" src="../../assets/img/show.png">
+              <img @click="changeHide()" src="@/assets/img/show.png">
             </span>
             <span class="ps">
-              <img @click="changeShow()" src="../../assets/img/hide.png">
+              <img @click="changeShow()" src="@/assets/img/hide.png">
             </span>
           </div>
         </div>
@@ -103,6 +103,7 @@ export default {
   border: none;
   outline: none;
   font-size: 0.433rem;
+  background: transparent;
 }
 
 .password {

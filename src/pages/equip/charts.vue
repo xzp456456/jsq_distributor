@@ -6,28 +6,7 @@
 			<a href="">本月</a>
 		</div>
 		<div class="item">
-			<div class="list">
-				<div class="row">
-					<span class="imgs"><img class="pull-left" src="../../assets/img/header.png"/></span>
-					<span class="pull-left name">周杰伦</span>
-					<span class="pull-right money">100.00</span>
-				</div>
-			</div>
-			<div class="list">
-				<div class="row">
-					<span class="imgs"><img class="pull-left" src="../../assets/img/header.png"/></span>
-					<span class="pull-left name">周杰伦</span>
-					<span class="pull-right money">100.00</span>
-				</div>
-			</div>
-			<div class="list">
-				<div class="row">
-					<span class="imgs"><img class="pull-left" src="../../assets/img/header.png"/></span>
-					<span class="pull-left name">周杰伦</span>
-					<span class="pull-right money">100.00</span>
-				</div>
-			</div>
-			<div class="list">
+			<div class="list" v-for="(list,index) in lists" :key="index">
 				<div class="row">
 					<span class="imgs"><img class="pull-left" src="../../assets/img/header.png"/></span>
 					<span class="pull-left name">周杰伦</span>
@@ -41,8 +20,31 @@
     </div>
 </template>
 <script>
+import { postAjax } from '@/api/axios'
+import * as api from '@/api/api'
 export default {
-    
+	data(){
+		return{
+			data:{
+				page:1,
+				page_size:10
+			},
+			lists:[]
+		}
+	},
+	created(){
+		this.record();
+	},
+    methods:{
+		record(){
+			let data = this.data;
+			postAjax(api.totalCommissionRecord,data)
+			.then(res=>{
+				console.log(res);
+				this.lists = res.data
+			})
+		}
+	}
 }
 </script>
 <style scoped="">

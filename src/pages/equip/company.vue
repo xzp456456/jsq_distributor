@@ -2,130 +2,182 @@
   <div>
     <header>
       <div class="header">
-        <div class="header_r">
-          <img src="../../assets/img/head.png">
+        <div class="header_r"  @click="navgateTo('myInfo')">
+          <img :src="info.dealer_avatar">
         </div>
-        <p class="name">王清华</p>
-        <p class="id">ID：124434</p>
-        <p class="numPeople">累计为22为客户 守护4324升放心水</p>
+        <p class="name">{{info.dealer_name}}</p>
+        <p class="id">ID：{{info.dealer_id}}</p>
+        <p class="numPeople">您和您的团队为{{info.team_user}}位用户 守护{{info.totalWater}}升放心水</p>
         <div class="item">
-          <div class="list">
-            <div class="money">15451.00</div>
+          <div class="list" @click="navgateTo('cumulative')">
+            <div class="money">{{info.total_sale}}</div>
             <div class="yj">累计业绩(元）</div>
           </div>
-          <div class="list">
-            <div class="money">6566.00</div>
+          <div class="list" @click="navgateTo('chart')">
+            <div class="money">{{info.total_commission}}</div>
             <div class="yj">累计佣金(元）</div>
           </div>
-          <div class="list">
-            <div class="money">55</div>
+          <div class="list" @click="navgateTo('Installed')">
+            <div class="money">{{info.total_device}}</div>
             <div class="yj">累计装机量(台)</div>
           </div>
         </div>
       </div>
 
-      <div class="textItem">
-        <img class="testIms" src="../../assets/img/nb.png">您已成功提交六年级（上）语文整页错题图3张！
+      <div class="textItem"  @click="navgateTo('announce')">
+        <img class="testIms" style="float:left" src="@/assets/img/nb.png">汇款通知
       </div>
+      <div v-if="info.is_city==1">
       <div class="cityName">城市名称（城市合伙人数据）</div>
       <div class="numItem">
         <div class="numList">
-          <div class="numid">865</div>
+          <div class="numid">{{info.city_user_count}}</div>
           <div class="its">总用户数</div>
         </div>
         <div class="numList">
-          <div class="numid">546</div>
+          <div class="numid">{{info.city_today_user_count}}</div>
           <div class="its">新增用户</div>
         </div>
         <div class="numList">
-          <div class="numid">7</div>
+          <div class="numid">{{info.city_device_count}}</div>
           <div class="its">装机台数</div>
         </div>
         <div class="numList">
-          <div class="numid">65</div>
+          <div class="numid">{{info.city_today_sale}}</div>
           <div class="its">今日业绩</div>
         </div>
       </div>
+      </div>
       <div class="menuItem">
-        <div class="menuList">
+        <div class="menuList" @click="navgateTo('team')">
           <div class="row">
             <div class="td pull-left">团队成员</div>
             <div class="pull-right people">
-              0人
-              <img src="../../assets/img/in.png">
+              {{info.team_user}}人
+              <img src="@/assets/img/in.png">
             </div>
           </div>
         </div>
-        <div class="menuList">
+        <div class="menuList" @click="navgateTo('teamOrder')">
           <div class="row">
             <div class="td pull-left">团队订单</div>
             <div class="pull-right people">
-              25单
-              <img src="../../assets/img/in.png">
+              {{info.order_count}}单
+              <img src="@/assets/img/in.png">
             </div>
           </div>
         </div>
-        <div class="menuList">
+        <div class="menuList" @click="navgateTo('commission')">
           <div class="row">
             <div class="td pull-left">已结金额</div>
             <div class="pull-right people">
-              5435
-              <img src="../../assets/img/in.png">
+              {{info.settled_amount}}
+              <img src="@/assets/img/in.png">
             </div>
           </div>
         </div>
-        <div class="menuList">
+        <div class="menuList" @click="navgateTo('outstanding')">
           <div class="row">
             <div class="td pull-left">未结金额</div>
             <div class="pull-right people">
-              656
-              <img src="../../assets/img/in.png">
+              {{info.unsettled_amount}}
+              <img src="@/assets/img/in.png">
             </div>
           </div>
         </div>
-        <div class="menuList">
+        <div class="menuList" @click="navgateTo('stock')">
           <div class="row">
             <div class="td pull-left">我的库存</div>
             <div class="pull-right people">
-              12台
-              <img src="../../assets/img/in.png">
+              {{info.sku}}台
+              <img src="@/assets/img/in.png">
             </div>
           </div>
         </div>
       </div>
-      <div class="btn">
+      <div class="btn" @click="logOut()">
         <button>退出</button>
       </div>
+      <div style="width:100%;height:1.6rem;"></div>
     </header>
     <main></main>
-   <v-footer></v-footer>
+    <v-footer>
+       <img slot="home" style="width:100%;height:100%" src="@/assets/img/home-active.png">
+       <img slot="menu" style="width:100%;height:100%" src="@/assets/img/menu.png">
+       <img slot="equip"  style="width:100%;height:100%" src="@/assets/img/nus.png">
+    </v-footer>
   </div>
 </template>
 <script>
-import * as api from '@/api/api';
-import { postAjax } from '@/api/axios'
-import footer from '@/components/footer'
+import * as types from '@/vuex/types'
+import * as api from "@/api/api";
+import { postAjax } from "@/api/axios";
+import footer from "@/components/footer";
 export default {
+  data(){
+    return{
+      info:{}
+    }
+  },
   created() {
     this.che_token();
-    this.getUserInfo()
+    this.getIndexInfo();
   },
   methods: {
+    getIndexInfo(){
+      postAjax(api.index,{})
+      .then(res=>{
+            if(res.status==1){
+              this.info = res.data;
+              this.getLevel(res.data);
+              localStorage.setItem('sku',res.data.sku);
+              localStorage.setItem('settled_amount',res.data.settled_amount);
+              localStorage.setItem('unsettled_amount',res.data.unsettled_amount);
+              localStorage.setItem('can_withdraw',res.data.can_withdraw);
+              this.$route.meta.title = res.data.dealer_name+"的经销商端"
+            }else if(res.status == -10086){
+              localStorage.removeItem('access_token');
+              this.$router.push('login');
+            }
+      })
+    },
+    logOut() {
+      this.$MessageBox.confirm('确定退出')
+      .then(action=>{
+        postAjax(api.logOut, {}).then(res => {
+        if (res.status) {
+            localStorage.removeItem('access_token');
+            this.$router.push('login')
+        }
+        })
+      }).catch((action)=>{
+        console.log(action);
+      });
+      
+    },
     che_token() {
       let token = window.localStorage.getItem("access_token");
       if (!token || token === null) {
         this.$router.push("login");
       }
     },
-    getUserInfo(){
-        postAjax(api.getUserInfo,{})
-        .then((res)=>{
-          console.log(res);
-        })
+    navgateTo(url) {
+      this.$router.push(url);
+    },
+    getLevel(res){
+            localStorage.setItem('my_order_count',res.my_order_count)
+            localStorage.setItem('level1_order_count',res.level1_order_count)
+            localStorage.setItem('level2_order_count',res.level2_order_count)
+            localStorage.setItem('my_device_count',res.my_device_count)
+            localStorage.setItem('level1_device_count',res.level1_device_count)
+            localStorage.setItem('level2_device_count',res.level2_device_count)
+             localStorage.setItem('dealer_count',res.dealer_count)
+            localStorage.setItem('dealer_count_level1',res.dealer_count_level1)
+            localStorage.setItem('dealer_count_level2',res.dealer_count_level2)
     }
   },
-  components:{
-    'v-footer':footer
+  components: {
+    "v-footer": footer
   }
 };
 </script>
@@ -239,7 +291,7 @@ p {
 .textItem {
   margin: 0 auto;
   margin-top: 1.366666rem;
-  text-align: center;
+  text-align: left;
   font-size: 0.33rem;
   font-family: PingFang-SC-Medium;
   font-weight: 500;
@@ -354,5 +406,8 @@ p {
   border: none;
 }
 
-
+.testIms {
+  width: 0.333333rem;
+  height: 0.333333rem;
+}
 </style>

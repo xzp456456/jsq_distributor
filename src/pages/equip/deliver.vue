@@ -9,7 +9,7 @@
 		<div class="text">
 			库存低于以上数量将自动提交发货申请
 		</div>
-		<v-btn btnName="提现" @actionClick="updateMinSku"></v-btn>
+		<v-btn btnName="保存" @actionClick="updateMinSku"></v-btn>
     </div>
 </template>
 <script>
@@ -19,18 +19,26 @@ import { postAjax,layOpen} from '@/api/axios'
 export default {
 	data(){
 		return{
-			min_sku:""
+			min_sku:localStorage.getItem('min_sku')
 		}
 	},
 	methods:{
 		updateMinSku(){
+			if(this.min_sku>20){
+				layOpen('库存最多20台');
+				return;
+			};
 			let data = {
 				min_sku:this.min_sku
 			}
 			postAjax(api.updateMinSku,data)
 			.then(res=>{
 				if(res.status){
+					localStorage.setItem('min_sku',this.min_sku);
 					layOpen(res.msg);
+					setTimeout(()=>{
+						this.$router.push('/')
+					},1500)
 				}else{
 					layOpen(res.msg);
 				}

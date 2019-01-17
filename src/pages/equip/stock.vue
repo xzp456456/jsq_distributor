@@ -2,15 +2,28 @@
   <div>
     <div class="stock">
       <span class="span_a">库存</span>
-      <span class="span_b">15</span>
+      <span class="span_b">{{stock}}</span>
       <span class="span_c">台</span>
     </div>
-    <btn btnName="发货设置"></btn>
+    <btn btnName="发货设置" @actionClick="navgateTo('deliver')" ></btn>
   </div>
 </template>
 <script>
-import btn from "../../components/btn";
+import btn from "@/components/btn";
 export default {
+  data(){
+    return{
+      stock:0
+    }
+  },
+  created(){
+    this.stock = localStorage.getItem('sku')
+  },
+  methods:{
+    navgateTo(url){
+      this.$router.push(url);
+    }
+  },
   components: {
     btn
   }

@@ -1,18 +1,44 @@
 <template>
     <div class="item">
-			<back-list>
-				<span slot="listOne">佣金 294.00</span>
-				<span slot="time">2018-11-01 12:12:16</span>
+			<back-list v-for="(list,index) in lists"  :key="index" @actionClick="navgateTo('breakInfo',list.settled_id)">
+				<span slot="listOne">佣金 {{list.amount}}</span>
+				<span slot="time">{{list.begin_time}}-{{list.end_time}}</span>
 			</back-list>	
-			<back-list>
-				<span slot="listOne">佣金 294.00</span>
-				<span slot="time">2018-11-01 12:12:16</span>
-			</back-list>				
 		</div>
 </template>
 <script>
-import backList from '../../components/backList'
+import backList from '@/components/backList'
+import { postAjax } from '@/api/axios'
+import * as api from '@/api/api'
 export default {
+	data(){
+		return{
+			data:{
+				page:1,
+				page_size:10
+			},
+			lists:[]
+		}
+	},
+	created(){
+		this.settledDetail()
+	},
+	methods:{
+		navgateTo(url,id){
+			this.$router.push(url);
+			localStorage.setItem('settled_id',id)
+		},
+		settledDetail(){
+			let data = this.data;
+			postAjax(api.settledList,data)
+			.then(res=>{
+				console.log(res);
+				if(res.status){
+					this.lists = res.data.list;
+				}
+			})
+		}
+	},
     components:{
 		'back-list':backList
 	}

@@ -118,6 +118,7 @@ export default {
   border: none;
   outline: none;
   font-size: 0.433rem;
+  background: transparent;
 }
 
 .password {

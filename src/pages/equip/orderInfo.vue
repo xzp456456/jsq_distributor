@@ -120,7 +120,6 @@ ul{
 }
 
 
-
 .bg{
 	width:8.23rem;
 	height:1rem;

@@ -3,15 +3,15 @@
     <header>
       <div class="header">
         <div class="num">
-          <div class="money">2626.00</div>
-          <div class="unit">已结金额(元)</div>
+          <div class="money">{{money.unsettled_amount}}</div>
+          <div class="unit">未结金额(元)</div>
         </div>
-        <div class="getMoney">可提金额：5000</div>
+        <div class="getMoney">可提金额：{{money.can_withdraw}}</div>
       </div>
     </header>
     <main>
       <div class="item">
-        <div class="list">
+        <!-- <div class="list">
           <div class="row">
             <div class="it">
               <span class="pull-left money_u">佣金 294.00</span>
@@ -34,24 +34,47 @@
               <span class="pull-right yz">业绩</span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="list" style="margin-top: 0.3rem;">
+      <div class="list" style="margin-top: 0.3rem;" @click="navgateTo('breakdown')">
         <div class="row">
-          <span class="pull-left">提现记录</span>
+          <span class="pull-left">佣金记录</span>
           <span class="pull-right">
             <img class="in" src="../../assets/img/in.png">
           </span>
         </div>
       </div>
-      <btn btnName="立即提交"></btn>
+      <!-- <btn btnName="立即提交"></btn> -->
     </main>
     <footer></footer>
   </div>
 </template>
 <script>
 import btn from '../../components/btn'
+import { postAjax } from '@/api/axios'
+import * as api from '@/api/api'
 export default {
+  data(){
+    return{
+      money:{}
+    }
+  },
+  created(){
+    this.outstanding();
+    this.money.unsettled_amount = localStorage.getItem('unsettled_amount');
+    this.money.can_withdraw = localStorage.getItem('can_withdraw');
+  },
+  methods:{
+    navgateTo(url){
+      this.$router.push(url)
+    },
+    outstanding(){
+      postAjax(api.unsettledList,{})
+      .then(res=>{
+        console.log(res);
+      })
+    }
+  },
   components:{
     btn
   }

@@ -3,8 +3,8 @@
     <div class="list" v-for="(list,index) in lists" :key="index">
       <div class="row">
         <div class="pull-left all">
-          <div class="name">张三</div>
-          <div class="time">{{list.months}}</div>
+          <div class="name">{{list.begin_time}}</div>
+          <!-- <div class="time">{{list.begin_time}}</div> -->
         </div>
         <div class="pull-right money">{{list.amount}}</div>
       </div>
@@ -30,10 +30,10 @@ export default {
   methods:{
     cumulative(){
       let data = this.data;
-      postAjax(api.totalSaleRecord,data)
+      postAjax(api.settledList,data)
       .then(res=>{
           if(res.status){
-            this.lists = res.data
+            this.lists = res.data.list
           }
       })
     }
@@ -71,7 +71,7 @@ export default {
 }
 
 .all {
-  padding-top: 0.3rem;
+  padding-top: 0.6rem;
 }
 
 .time {

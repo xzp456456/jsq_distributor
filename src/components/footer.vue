@@ -2,26 +2,33 @@
     <div>
        <footer>
       <div class="nab">
-        <div class="navlist"  @click="navgateTo('/')">
-          <img src="@/assets/img/home.png">
+        <router-link exact to="/" tag="div"   class="navlist" >
+         
+          <div class="tabt"><slot name="home"></slot></div>
           <div class="text">首页</div>
-        </div>
-        <div class="navlist" @click="navgateTo('teamOrder')">
-          <img src="@/assets/img/menu.png">
+        </router-link>
+        <router-link tag="div" to="teamOrder" class="navlist">
+          <div class="tabt"><slot name="menu"></slot></div>
           <div class="text">订单</div>
-        </div>
-        <div class="navlist" @click="navgateTo('equipList')">
-          <img src="@/assets/img/nus.png">
+        </router-link>
+        <router-link to="equipList" tag="div" class="navlist">
+          <div class="tabt"><slot name="equip"></slot></div>
           <div class="text">设备</div>
-        </div>
+        </router-link>
       </div>
     </footer>
     </div>
 </template>
 <script>
 export default {
+  data(){
+    return{
+      tapIndex:0
+    }
+  },
     methods:{
-		 navgateTo(url){
+		 navgateTo(url,index){
+       this.tapIndex = index;
       this.$router.push(url);
     	}
 	}
@@ -37,21 +44,28 @@ footer {
   bottom: 0;
 }
 
-.navlist img {
+.navlist .tabt {
   width: 0.59rem;
   height: 0.59rem;
+  margin: 0 auto;
 }
+
+
 
 .navlist {
   padding-top: 0.4rem;
   float: left;
   text-align: center;
-  margin: 0 1.3rem;
+  margin: 0 1.28rem;
   font-size: 0.333rem;
 }
 
 .testIms {
   width: 0.31rem;
   height: 0.33rem;
+}
+
+.router-link-active{
+      color: rgba(26, 173, 255, 1);
 }
 </style>

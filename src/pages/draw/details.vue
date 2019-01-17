@@ -2,11 +2,14 @@
     <div>
         	<div class="header">
 			<div class="title">
-				关于借款的通知
+				{{htmlInfo.title}}
 			</div>
-			<p>2017-12-31</p>
+			<p>{{htmlInfo.create_time}}</p>
 		</div>
-		<div class="list">
+		<div class="list" v-html="htmlInfo.content">
+			
+		</div>
+		<!-- <div class="list">
 			小刘是一名大二学生，最近刚刚交了女票。一月来，吃饭、逛街、看电影已经把生活费花的差不多了，马上女票要过生日了，想给她一个惊喜，又是一笔不小的开支。
 		</div>
 		<div class="list">
@@ -24,12 +27,33 @@
 			百无聊赖的小刘登陆QQ，
 			突然看见自己过去在校园贷群中加的几个校园贷业务员，他鬼使神差地点开了会话页面，“你好，
 			请问现在还能借钱么”，对方很快就回复了，“大学生还是成人，芝麻分是多少”，“我是大学生，芝麻分759”。
-		</div>
+		</div> -->
     </div>
 </template>
 <script>
+import { postAjax,getAjax } from '@/api/axios'
+import * as api from '@/api/api'
 export default {
-    
+	data(){
+		return{
+			htmlInfo:{}
+		}
+	},
+	created(){
+		this.notice()
+	},
+    methods:{
+		notice(){
+			let data={
+				notice_id:localStorage.getItem('notice_id')
+			}
+			postAjax(api.noticeInfo,data)
+			.then(res=>{
+				console.log(res);
+				this.htmlInfo = res.data;
+			})
+		}
+	}
 }
 </script>
 <style scoped="">
