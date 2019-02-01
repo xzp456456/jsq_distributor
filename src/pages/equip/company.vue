@@ -3,7 +3,7 @@
     <header>
       <div class="header">
         <div class="header_r"  @click="navgateTo('myInfo')">
-          <img :src="info.dealer_avatar">
+          <img :src="info.dealer_avatar?info.dealer_avatar:require('../../assets/img/head.png')">
         </div>
         <p class="name">{{info.dealer_name}}</p>
         <p class="id">ID：{{info.dealer_id}}</p>
@@ -53,7 +53,7 @@
           <div class="row">
             <div class="td pull-left">团队成员</div>
             <div class="pull-right people">
-              {{info.team_user}}人
+              {{count}}人
               <img src="@/assets/img/in.png">
             </div>
           </div>
@@ -116,12 +116,14 @@ import footer from "@/components/footer";
 export default {
   data(){
     return{
-      info:{}
+      info:{},
+      count:""
     }
   },
   created() {
     this.che_token();
     this.getIndexInfo();
+    this.member();
   },
   methods: {
     getIndexInfo(){
@@ -154,6 +156,14 @@ export default {
         console.log(action);
       });
       
+    },
+     member() {
+      let data = {};
+      postAjax(api.member,data).then(res => {
+        if (res.status) {
+          this.count = res.data.count;
+        }
+      });
     },
     che_token() {
       let token = window.localStorage.getItem("access_token");

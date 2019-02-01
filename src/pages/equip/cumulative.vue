@@ -3,7 +3,7 @@
     <div class="list" v-for="(list,index) in lists" :key="index">
       <div class="row">
         <div class="pull-left all">
-          <div class="name">张三</div>
+          <!-- <div class="name">张三</div> -->
           <div class="time">{{list.months}}</div>
         </div>
         <div class="pull-right money">{{list.amount}}</div>
@@ -71,15 +71,14 @@ export default {
 }
 
 .all {
-  padding-top: 0.3rem;
+  padding-top: 0rem;
 }
 
 .time {
-  font-size: 0.32rem;
+  font-size: 0.38rem;
   font-family: PingFang-SC-Medium;
   font-weight: 500;
   color: rgba(121, 121, 121, 1);
-  line-height: normal;
 }
 
 .money {

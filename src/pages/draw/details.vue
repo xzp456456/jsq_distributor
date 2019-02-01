@@ -6,7 +6,7 @@
 			</div>
 			<p>{{htmlInfo.create_time}}</p>
 		</div>
-		<div class="list" v-html="htmlInfo.content">
+		<div class="list allImg" v-html="htmlInfo.content">
 			
 		</div>
 		<!-- <div class="list">
@@ -95,6 +95,10 @@ p{
 }
 
 .listimg img{
+	width: 100%;
+}
+
+.list img{
 	width: 100%;
 }
 

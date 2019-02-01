@@ -1,30 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import announce from '../pages/draw/announce'
-import breakdown from '../pages/break/breakdown'
-import breakInfo from '../pages/break/breakInfo'
-import cashRecord from '../pages/equip/cashRecord'
-import charts from '../pages/equip/charts'
-import commission from '../pages/draw/commission'
-import company from '../pages/equip/company'
-import cumulative from '../pages/equip/cumulative'
-import deliver from '../pages/equip/deliver'
-import details from '../pages/draw/details'
-import draw from '../pages/draw/draw';
-import equipInfo from '../pages/equip/equipInfo'
-import equipList from '../pages/equip/equipList'
-import Installed from '../pages/equip/Installed'
-import login from '../pages/user/login'
-import orderInfo from '../pages/equip/orderInfo'
-import outstanding from '../pages/draw/outstanding'
-import reset from '../pages/user/reset'
-import searchPassword from '../pages/user/searchPassword'
-import stock from '../pages/equip/stock'
-import team from '../pages/team/team'
-import teamInfo from '../pages/team/teamInfo'
-import teamOrder from '../pages/team/teamOrder'
-import chart from '@/pages/equip/chart'
-import myInfo from '@/pages/user/myInfo'
 Vue.use(Router)
 
 
@@ -33,15 +8,15 @@ export default new Router({
   routes: [
     {
       path: '/myInfo',
-      component: myInfo,
+      component: resolve=>require(['@/pages/user/myInfo'],resolve),
       name: 'myInfo',
       meta:{
-        title:'累计佣金'
+        title:'经销商个人信息'
       }
     },
     {
       path: '/chart',
-      component: chart,
+      component: resolve=>require(['@/pages/equip/chart'],resolve),
       name: 'chart',
       meta:{
         title:'累计佣金'
@@ -49,7 +24,7 @@ export default new Router({
     },
     {
       path: '/announce',
-      component: announce,
+      component:  resolve=>require(['../pages/draw/announce'],resolve),
       name: 'announce',
       meta:{
         title:'公告'
@@ -57,7 +32,7 @@ export default new Router({
     },
     {
       path: '/breakdown',
-      component: breakdown,
+      component: resolve=>require(['../pages/break/breakdown'],resolve),
       name: 'breakdown',
       meta: {
         title: '佣金记录'
@@ -65,7 +40,7 @@ export default new Router({
     },
     {
       path: '/breakInfo',
-      component: breakInfo,
+      component: resolve=>require(['../pages/break/breakInfo'],resolve),
       name: 'breakInfo',
       meta: {
         title: '佣金明细'
@@ -73,17 +48,17 @@ export default new Router({
     },
     {
       path: '/cashRecord',
-      component: cashRecord,
+      component: resolve=>require(['../pages/equip/cashRecord'],resolve),
       name: 'cashRecord'
     },
     {
       path: '/charts',
-      component: charts,
+      component: resolve=>require(['../pages/equip/charts'],resolve),
       name: 'charts'
     },
     {
       path: '/commission',
-      component: commission,
+      component: resolve=>require(['../pages/draw/commission'],resolve),
       name: 'commission',
       meta:{
         title: '已结金额'
@@ -91,7 +66,7 @@ export default new Router({
     },
     {
       path: '/',
-      component: company,
+      component: resolve=>require(['../pages/equip/company'],resolve),
       name: 'company',
       meta: {
         title: '首页'
@@ -99,12 +74,12 @@ export default new Router({
     },
     {
       path: '/cumulative',
-      component: cumulative,
+      component: resolve=>require(['../pages/equip/cumulative'],resolve),
       name: 'cumulative'
     },
     {
       path: '/deliver',
-      component: deliver,
+      component: resolve=>require(['../pages/equip/deliver'],resolve),
       name: 'deliver',
       meta:{
         title:'发货设置'
@@ -112,7 +87,7 @@ export default new Router({
     },
     {
       path: '/details',
-      component: details,
+      component: resolve=>require(['../pages/draw/details'],resolve),
       name: 'details',
       meta:{
         title:'公告详情'
@@ -120,7 +95,7 @@ export default new Router({
     },
     {
       path: '/draw',
-      component: draw,
+      component: resolve=>require(['../pages/draw/draw'],resolve),
       name: 'draw',
       meta:{
         title:'提现'
@@ -128,7 +103,7 @@ export default new Router({
     },
     {
       path: '/equipInfo',
-      component: equipInfo,
+      component: resolve=>require(['../pages/equip/equipInfo'],resolve),
       name: 'equipInfo',
       meta:{
         title:'设备详情'
@@ -136,7 +111,7 @@ export default new Router({
     },
     {
       path: '/equipList',
-      component: equipList,
+      component:resolve=>require(['../pages/equip/equipList'],resolve),
       name: 'equipList',
       meta:{
         title:'设备'
@@ -144,7 +119,7 @@ export default new Router({
     },
     {
       path: '/Installed',
-      component: Installed,
+      component: resolve=>require(['../pages/equip/Installed'],resolve),
       name: 'Installed',
       meta:{
         title:'累计装机量'
@@ -152,7 +127,7 @@ export default new Router({
     },
     {
       path: '/login',
-      component: login,
+      component: resolve=>require(['../pages/user/login'],resolve),
       name: 'login',
       meta:{
         title:"登录"
@@ -160,15 +135,15 @@ export default new Router({
     },
     {
       path: '/orderInfo',
-      component: orderInfo,
+      component: resolve=>require(['../pages/equip/orderInfo'],resolve),
       name: 'orderInfo',
       meta:{
-        title: '未结金额'
+        title: '订单详情'
       }
     },
     {
       path: '/outstanding',
-      component: outstanding,
+      component: resolve=>require(['../pages/draw/outstanding'],resolve),
       name: 'outstanding',
       meta:{
         title: '未结金额'
@@ -176,7 +151,7 @@ export default new Router({
     },
     {
       path: '/searchPassword',
-      component: searchPassword,
+      component: resolve=>require(['../pages/user/searchPassword'],resolve),
       name: 'searchPassword',
       meta:{
         title:'找回密码'
@@ -184,7 +159,7 @@ export default new Router({
     },
     {
       path: '/stock',
-      component: stock,
+      component: resolve=>require(['../pages/equip/stock'],resolve),
       name: 'stock',
       meta:{
         title:'我的库存'
@@ -192,7 +167,7 @@ export default new Router({
     },
     {
       path: '/team',
-      component: team,
+      component: resolve=>require(['../pages/team/team'],resolve),
       name: 'team',
       meta:{
         title:'团队成员'
@@ -200,7 +175,7 @@ export default new Router({
     },
     {
       path: '/teamInfo',
-      component: teamInfo,
+      component: resolve=>require(['../pages/team/teamInfo'],resolve),
       name: 'teamInfo',
       meta:{
         title:'团队详情'
@@ -208,7 +183,7 @@ export default new Router({
     },
     {
       path: '/teamOrder',
-      component: teamOrder,
+      component: resolve=>require(['../pages/team/teamOrder'],resolve),
       name: 'teamOrder',
       meta:{
         title:'团队订单'

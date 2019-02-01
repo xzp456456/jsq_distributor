@@ -6,7 +6,7 @@
           <div class="money">{{money.settled_amount}}</div>
           <div class="unit">已结金额(元)</div>
         </div>
-        <div class="getMoney">可提金额：{{money.can_withdraw}}</div>
+        <!-- <div class="getMoney">可提金额：{{money.can_withdraw}}</div> -->
       </div>
     </header>
     <main>
@@ -48,7 +48,8 @@ export default {
   },
   methods:{
     navgateTo(url){
-      this.$router.push(url)
+      this.$router.push(url);
+      localStorage.setItem('list_type','readList');
     }
   },
     components:{

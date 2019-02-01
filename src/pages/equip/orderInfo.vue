@@ -4,8 +4,11 @@
 			<div class="list">
 				<div class="row">
 					<div class="title">
-					<span class="pid pull-left">更换滤芯 订单号：545345</span>
-					<span class="o_status pull-right">未支付</span>
+					<span class="pid pull-left">{{info.order_title}} 订单号：{{info.order_id}}</span>
+					<span class="o_status pull-right" v-if="info.status==0">未支付</span>
+					<span class="o_status pull-right" v-if="info.status==1">已支付</span>
+					<span class="o_status pull-right" v-if="info.status==2">已完成</span>
+					<span class="o_status pull-right" v-if="info.status==3">已发货</span>
 					</div>
 					<div class="clear">
 						<div class="main_img pull-left">
@@ -13,39 +16,39 @@
 						</div>
 						<div class="dd pull-left">
 							<div class="money">
-								<span class="pull-left money_r">987元5435升</span>
-								<span class="pull-right money_s">¥254.00</span>
+								<span class="pull-left money_r">{{info.order_name}}</span>
+								<span class="pull-right money_s">¥{{info.amount}}</span>
 							</div>
 							<div class="team_name">
-								经销商 : 郑小平
+								经销商 :{{info.dealer_name}}
 							</div>
 							<div class="pay_time">
-								购买时间 : 2018.01.02
+								购买时间 : {{info.create_time}}
 							</div>
 						</div>
 						<div class="qd">
-						<span>设备id:100565</span>
-						<span class="span_d">是否记佣：不记</span>
+						<span>设备id:{{info.device_id}}</span>
+						<span class="span_d">是否记佣：{{info.is_commission?'记':'不记'}}</span>
 					</div>
 					<div class="qd">
-						设备型号：家用型（LANMAX-1856）
+						型号:{{info.device_model}}
 					</div>
 					<div class="qd">
-						收货地址：福建省 厦门市 集美区 软件园三期A区02栋5楼
+						收货地址：{{info.dealer_consignee_province}}{{info.dealer_consignee_city}}{{info.dealer_consignee_address}}
 					</div>
 					</div>
 					
 					<div class="ws">
 						<div class="pull-left names">
 							<div class="pull-left">
-								<img class="imgtop" src="../../assets/img/ty.png"/> 
+								<img class="imgtop" :src="info.avatar"/> 
 							</div>
 							<div class="pull-left name_s">
-								张三
+								{{info.nickname}}
 							</div>
 						</div>
 						<div class="pull-right imgtel">
-							<img src="../../assets/img/ph.png"/>
+							<a :href="'tel:'+info.mobile"><img src="../../assets/img/ph.png"/></a>
 						</div>
 					</div>
 				</div>
@@ -56,8 +59,27 @@
     </div>
 </template>
 <script>
+import { postAjax } from "@/api/axios";
+import * as api from "@/api/api";
 export default {
-    
+    data(){
+		return{
+			info:{}
+		}
+	},
+	created(){
+		this.getUserInfo()
+	},
+	methods:{
+		getUserInfo(){
+			let data = { order_id:localStorage.getItem('order_id') }
+			postAjax(api.getUserInfo,data)
+			.then(res=>{
+				console.log(res)
+				this.info = res.data;
+			})
+		}
+	}
 }
 </script>
 <style scoped="">
@@ -265,7 +287,6 @@ ul{
 	clear: both;
 	padding-top: 0.4rem;
 	width: 100%;
-	height: 3.9rem;
 	border-bottom:1px solid #E8EEF4 ;
 }
 

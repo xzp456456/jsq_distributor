@@ -60,13 +60,13 @@
           </div>
           <div class="l_status">
             滤芯状态：
-            <span>{{list.F1Flux?list.F1Flux:0}}</span>
-            <span>{{list.F2Flux?list.F2Flux:0}}</span>
-            <span>{{list.F3Flux?list.F3Flux:0}}</span>
-            <span>{{list.F4Flux?list.F4Flux:0}}</span>
-            <span>{{list.F5Flux?list.F5Flux:0}}</span>
+            <span>{{list.F1Flux?parseInt(list.F1Flux/list.F1FluxMax*100)+'%':0}}</span>
+            <span>{{list.F2Flux?parseInt(list.F1Flux/list.F2FluxMax*100)+'%':0}}</span>
+            <span>{{list.F3Flux?parseInt(list.F1Flux/list.F3FluxMax*100)+'%':0}}</span>
+            <span>{{list.F4Flux?parseInt(list.F1Flux/list.F4FluxMax*100)+'%':0}}</span>
+            <span>{{list.F5Flux?parseInt(list.F1Flux/list.F5FluxMax*100)+'%':0}}</span>
           </div>
-          <div class="company">所属经销商(二级)：{{list.dealer_name}}</div>
+          <div class="company">所属经销商：{{list.dealer_name}}</div>
           <div class="address">地址：{{list.province}}{{list.city}}{{list.area}}{{list.address}}</div>
           <div class="use">
             <div class="header_r pull-left">
@@ -75,12 +75,13 @@
             <div class="pull-left info">
               <div class="info_name">{{list.username}}</div>
               <div class="tel">电话：
-                <a :href="'tel:'+list.tel">{{list.tel}}</a>
+                <a :href="'tel:'+list.tel"  @click="stop($event)">{{list.tel}}</a>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div style="width:100%;height:2rem;"></div>
     </div>
     <v-footer>
       <img slot="home" style="width:100%;height:100%" src="@/assets/img/home.png">
@@ -124,6 +125,9 @@ export default {
     this.getDeviceLevel();
   },
   methods: {
+    stop(e){
+      e.stopPropagation();
+    },
     getDeviceLevel(){
       this.DeviceLevel ={
           my_device_count:localStorage.getItem('my_device_count'),
@@ -409,6 +413,11 @@ ul {
   font-size: 0.34rem;
   font-family: PingFang-SC-Medium;
   font-weight: 500;
+  color: rgba(165, 165, 165, 1);
+}
+
+.tel a{
+  text-decoration: none;
   color: rgba(165, 165, 165, 1);
 }
 

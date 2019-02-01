@@ -1,9 +1,12 @@
 <template>
-  <div class="item">
+  <div class="item"
+   v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10">
     <div class="list" v-for="(list,index) in lists" :key="index">
       <div class="row">
         <div class="pull-left all">
-          <div class="name">{{list.begin_time}}</div>
+          <div class="name">{{list.months}}</div>
           <!-- <div class="time">{{list.begin_time}}</div> -->
         </div>
         <div class="pull-right money">{{list.amount}}</div>
@@ -20,23 +23,27 @@ export default {
       lists:[],
       data:{
         page:1,
-        page_size:10
+        page_size:0
       }
     }
   },
   created(){
-    this.cumulative()
+    //this.cumulative()
   },
   methods:{
     cumulative(){
       let data = this.data;
-      postAjax(api.settledList,data)
+      postAjax(api.totalCommissionRecord,data)
       .then(res=>{
           if(res.status){
-            this.lists = res.data.list
+            this.lists = res.data
           }
       })
-    }
+    },
+     loadMore() {
+      this.data.page_size = this.data.page_size + 10;
+      this.cumulative();
+    },
   }
 };
 </script>

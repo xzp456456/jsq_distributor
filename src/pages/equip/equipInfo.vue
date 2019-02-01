@@ -24,7 +24,7 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">计费模式</div>
-            <div class="pull-right text_right">{{info.chargeMode?info.chargeMode:'按流量'}}</div>
+            <div class="pull-right text_right">{{info.chargeMode==1?'按流量':'按时长'}}</div>
           </div>
         </div>
         <div class="list">

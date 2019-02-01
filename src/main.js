@@ -5,10 +5,11 @@ import App from './App'
 import router from './router'
 import store from './vuex/store';
 import layer from 'layer-mobile'
-import { MessageBox,Toast,Popup,Loadmore,InfiniteScroll } from 'mint-ui'
+import { MessageBox,Toast,Popup,Loadmore,InfiniteScroll,Picker } from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.component(Popup.name, Popup);
 Vue.component(Loadmore.name,Loadmore);
+Vue.component(Picker.name,Picker);
 Vue.use(InfiniteScroll);
 Vue.prototype.$layer = layer;
 Vue.prototype.$MessageBox = MessageBox;

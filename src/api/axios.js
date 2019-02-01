@@ -3,6 +3,7 @@ import qs from 'qs'
 import store from '../vuex/store'
 import layer from 'layer-mobile'
 import $ from 'jquery'
+import router from '../router/index'
 import { Indicator } from 'mint-ui';
 const baseURL = process.env.HTTP_URL+"/";
 //axios.defaults.baseURL = process.env.HTTP_URL;
@@ -22,7 +23,7 @@ if(GetDomainName()==".com"){
 //axios.defaults.timeout = 2500;
     // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded';
-axios.defaults.headers['access-token'] = localStorage.getItem('access_token');
+//axios.defaults.headers['access-token'] = localStorage.getItem('access_token');
     //axios.defaults.headers['is-wap'] = 1;
     axios.interceptors.request.use(
         
@@ -83,12 +84,40 @@ export const postAjax = (url, param) => {
                     'access-token': localStorage.getItem('access_token')
                 }
             }).then((res) => {
-                resolve(res.data);
+                if(res.data.status==-10086){
+                    layer.open({
+                        skin: "msg",
+                        time: 1.5,
+                        content: res.data.msg
+                    })
+                    setTimeout(()=>{
+                        router.push('login');
+                    },1500)
+                }else{
+                    resolve(res.data);
+                }
             }).then((err) => {
                 reject(err);
             })
     })
 }
+
+export const postFileUp = (url, param) => {
+    param.dealer_id = localStorage.getItem('dealer_id');
+     return new Promise((resolve, reject) => {
+         axios.post(url,param, {
+             headers: {
+                'access-token': localStorage.getItem('access_token'),
+                 'Content-Type': 'multipart/form-data'
+             }
+         }).then((res) => {
+             resolve(res.data);
+         }).then((err) => {
+             reject(err);
+         })
+     })
+ }
+
 
 export const postServer = (url, param) => {
     param.dealer_id = localStorage.getItem('dealer_id');
@@ -103,7 +132,7 @@ export const postServer = (url, param) => {
             },
             dataType:'json',
             success:(res)=>{
-                resolve(data)
+                resolve(res)
             },
             error:(err)=>{
                 reject(err);

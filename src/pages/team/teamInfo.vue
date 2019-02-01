@@ -12,13 +12,13 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">经销商</div>
-            <div class="pull-right text_right">{{teamInfo.dealer_name}}</div>
+            <div class="pull-right text_right">{{teamInfo.name}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">经销商地址</div>
-            <div class="pull-right text_right">{{teamInfo.dealer_consignee_address}}</div>
+            <div class="pull-right text_right">{{teamInfo.dealer_address}}</div>
           </div>
         </div>
         <div class="list">
@@ -36,14 +36,14 @@
         <div class="list">
           <div class="row">
             <div class="pull-left title">累计业绩</div>
-            <div class="pull-right text_right">665262.00</div>
+            <div class="pull-right text_right">{{teamInfo.sale}}</div>
           </div>
         </div>
         <div class="list">
           <div class="row">
             <div class="pull-left title">累计装机量</div>
             <div class="pull-right text_right">
-              <span class="numpd">25台</span>
+              <span class="numpd">{{teamInfo.device_num}}台</span>
               <img class="imds" src="../../assets/img/in.png">
             </div>
           </div>
@@ -56,27 +56,16 @@
 <script>
 import { postAjax } from "@/api/axios";
 import * as api from "@/api/api";
+
 export default {
   data(){
     return{
-        teamInfo:[]
+        teamInfo:{}
     }
   },
   created(){
-    this.getTeamInfo();
-  },
-  methods:{
-     getTeamInfo(){
-       let data = { order_id:localStorage.getItem('order_id') }
-        postAjax(api.getUserInfo,data)
-        .then(res=>{
-          console.log(res);
-          if(res.status){
-              this.teamInfo = res.data
-          }
-        
-        })
-     }
+    this.teamInfo = this.$store.state.order.info;
+    console.log(this.$store.state.order.info)
   }
 
 };

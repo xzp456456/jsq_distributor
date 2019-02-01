@@ -2,7 +2,8 @@ import * as types from './types';
 const state = {
     order_level: {},
     device:{},
-    info:{}
+    info:{},
+    team:{}
 }
 
 const getters = {
@@ -28,6 +29,9 @@ const mutations = {
     },
     [types.HTTP_INFO](state,data) {
         state.info = data;
+    },
+    [types.HTTP_TEAM](state,data) {
+        state.team = data;
     }
 }
 

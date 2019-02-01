@@ -6,7 +6,7 @@
           <img src="@/assets/img/fd.png">
         </div>
         <div class="searchInput pull-left">
-          <input type="text" placeholder="请输入姓名，经销商ID，设备..." v-model="data.keyword" >
+          <input type="text" placeholder="请输入姓名,手机号,经销商ID" v-model="data.keyword" >
           <button class="search-btn" @click="member()">搜索</button>
         </div>
       </div>
@@ -26,17 +26,19 @@
     <div class="item" v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"
       infinite-scroll-distance="0">
-      <div class="list" v-for="(list,index) in lists" :key="index">
+      <div class="list" v-for="(list,index) in lists" :key="index"  @click="navgateTo(list)">
         <div class="row">
           <div class="top_list">
             <div class="header_img pull-left">
-              <img :src="list.avatar">
+              <img :src="list.avatar?list.avatar:require('../../assets/img/head.png')">
             </div>
             <div class="pull-left">
               <div class="info_o">
                 <span class="pull-left name">
                   {{list.name}}
-                  <img src="@/assets/img/ph.png">
+                  <a :href="'tel:'+list.mobile"  @click.stop="stop($event)">
+                 <img src="@/assets/img/ph.png" @click.stop="stop($event)">
+                 </a>
                 </span>
                 <span class="pull-right num">
                   累计业绩：
@@ -63,9 +65,9 @@
       <div class="coll">
         <ul>
           <li @click=" changOrder('')">不限</li>
-          <li @click=" changOrder(0)">注册时间</li>
-          <li @click=" changOrder(1)">销售业绩</li>
-          <li @click=" changOrder(2)">装机总量</li>
+          <li @click=" changOrder(1)">注册时间</li>
+          <li @click=" changOrder(2)">销售业绩</li>
+          <li @click=" changOrder(3)">装机总量</li>
           <li @click="showSelect(false)">取消</li>
         </ul>
       </div>
@@ -75,6 +77,7 @@
 <script>
 import { postAjax ,getAjax} from "@/api/axios";
 import * as api from "@/api/api";
+import * as types from '@/vuex/types';
 export default {
   data() {
     return {
@@ -96,6 +99,13 @@ export default {
     this.member();
   },
   methods: {
+    stop(e){
+      e.stopPropagation()
+    },
+    navgateTo(data){
+      this.$store.commit(types.HTTP_INFO, data);
+      this.$router.push('teamInfo');
+    },
     loadMore(){
       this.data.page_size = this.data.page_size+10;
       this.member();
@@ -118,6 +128,7 @@ export default {
         }
       });
     },
+
     showSelect(bool){
       this.show=bool;
     }

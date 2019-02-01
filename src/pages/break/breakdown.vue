@@ -21,7 +21,12 @@ export default {
 		}
 	},
 	created(){
-		this.settledDetail()
+		if(localStorage.getItem('list_type')=="readList"){
+			this.settledDetail()
+		}else{
+			this.unsettledDetail();
+		}
+		
 	},
 	methods:{
 		navgateTo(url,id){
@@ -37,7 +42,17 @@ export default {
 					this.lists = res.data.list;
 				}
 			})
-		}
+		},
+		unsettledDetail(){
+			let data = this.data;
+			postAjax(api.unsettledList,data)
+			.then(res=>{
+				console.log(res);
+				if(res.status){
+					this.lists = res.data.list;
+				}
+			})
+		},
 	},
     components:{
 		'back-list':backList

@@ -37,13 +37,26 @@ export default {
 		}
 	},
 	created(){
-		this.settledDetail()
+		if(localStorage.getItem('list_type')=='readList'){
+			this.settledDetail()
+		}else{
+			this.unsettledDetail()
+		}
+		
 	},
 	methods:{
 		settledDetail(){
 			this.data.settled_id = localStorage.getItem('settled_id')
 			let data = this.data;
 			postAjax(api.settledDetail,data)
+			.then(res=>{
+				this.lists = res.data.list
+			})
+		},
+		unsettledDetail(){
+			this.data.settled_id = localStorage.getItem('settled_id')
+			let data = this.data;
+			postAjax(api.unsettledDetail,data)
 			.then(res=>{
 				this.lists = res.data.list
 			})
@@ -107,5 +120,7 @@ export default {
 	background-color: white;
 	margin-top: .293333rem;
 }
+
+
 
 </style>

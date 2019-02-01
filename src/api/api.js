@@ -49,3 +49,5 @@ export const boot = 'dealer/device/boot'
 export const forceFlush = 'dealer/device/forceFlush'
 
 export const getInfo = 'dealer/user/getInfo'
+
+export const  updateInfo = 'dealer/user/updateInfo'

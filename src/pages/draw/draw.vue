@@ -10,7 +10,7 @@
 			<p>可提现金额：{{can_withdraw}}元</p>
 			</div>
 		</div>
-		<p class="pd">提现申请日期每个月为10号，20号，30号</p>
+		<p class="pd"></p>
 		<btn btnName="提现"  @actionClick="withdraw()"></btn>
     </div>
 </template>

@@ -6,7 +6,7 @@
           <img src="@/assets/img/fd.png">
         </div>
         <div class="searchInput pull-left">
-          <input type="text" placeholder="请输入姓名，经销商ID，设备..." v-model="data.keyword">
+          <input type="text" placeholder="请输入姓名,手机号,经销商ID..." v-model="data.keyword">
           <button class="search-btn" @click="orderList()">搜索</button>
         </div>
       </div>
@@ -18,10 +18,10 @@
       <a
         href="javascript:void(0);"
         :class="{active:index==statusIndex}"
-        @click="changeIndex(index)"
+        @click="changeIndex(index,list.id)"
         v-for="(list,index) in status"
         :key="index"
-      >{{list}}</a>
+      >{{list.name}}</a>
     </div>
     <div class="nav">
       <a
@@ -58,10 +58,13 @@
             <span class="pid pull-left" v-if="list.obj_type=='recharge'">充值 订单号：{{list.order_id}}</span>
             <span class="pid pull-left" v-if="list.obj_type=='repair'">报修 订单号：{{list.order_id}}</span>
             <span class="pid pull-left" v-if="list.obj_type=='filter'">更换滤芯 订单号：{{list.order_id}}</span>
+            <span class="o_status pull-right" v-if="list.status==-1">已拒绝</span>
             <span class="o_status pull-right" v-if="list.status==0">未支付</span>
             <span class="o_status pull-right" v-if="list.status==1">已支付</span>
             <span class="o_status pull-right" v-if="list.status==2">已完成</span>
             <span class="o_status pull-right" v-if="list.status==3">已发货</span>
+            <span class="o_status pull-right" v-if="list.status==4&list.obj_type=='repair'">申请中</span>
+            <span class="o_status pull-right" v-if="list.status==4&list.obj_type=='filter'">申请中</span>
           </div>
           <div class="clear">
             <div class="main_img pull-left">
@@ -78,8 +81,9 @@
               <div class="pay_time">购买时间 : {{list.create_time}}</div>
             </div>
             <div class="btn">
-              <button class="pull-left" v-if="list.status==1" @click="confirmComplete(list.order_id)">确认完成</button>
-              <button class="pull-right" @click="navgateTo('teamInfo',list.order_id)">查看详情</button>
+              <button class="pull-left" v-if="list.status==1&list.obj_type=='repair'&typeIndex==0" @click="confirmComplete(list.order_id)">确认完成</button>
+               <button class="pull-left" v-if="list.status==1&list.obj_type=='filter'&typeIndex==0" @click="confirmComplete(list.order_id)">确认完成</button>
+              <button class="pull-right" @click="navgateTo('orderInfo',list.order_id)">查看详情</button>
             </div>
           </div>
           <div class="ws">
@@ -134,7 +138,7 @@ export default {
       show: false,
       lists: [],
       order: {},
-      status: ["全部", "未支付", "已支付", "已发货", "已完成"],
+      status: [{name:"全部",id:""}, {name:"未支付",id:0}, {name:"已支付",id:1}, {name:"已发货",id:3}, {name:"已完成",id:2}],
       statusIndex: 0,
       typeIndex: 0,
       allLoaded: false,
@@ -181,12 +185,9 @@ export default {
       this.$router.push(url);
       localStorage.setItem('order_id',order_id)
     },
-    changeIndex(index) {
+    changeIndex(index,id) {
       this.statusIndex = index;
-      this.data.status = index - 1;
-      if (this.data.status < 0) {
-        this.data.status = "";
-      }
+      this.data.status = id;
       this.orderList();
     },
     changeType(type) {
@@ -423,7 +424,7 @@ ul {
 
 .btn{
   padding-bottom: .3rem;
-  padding-left: 56%;
+  padding-left: 52%;
 }
 
 .btn button{
@@ -431,7 +432,7 @@ ul {
    color: white;
    border:none;
    outline: none; 
-   font-size: .2rem;
+   font-size: .31rem;
    border-radius:.133333rem; 
 }
 
